@@ -9,13 +9,11 @@ $migset = array
 	'msg'=>'쪽지'
 );
 ?>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 <div id="migbox" class="p-4">
 	<div class="notice">
-		킴스큐 rb1 데이터를 킴스큐 Rb2 이전용 XML데이터를 추출할 수 있습니다.<br>
-		킴스큐-Rb2 용 마이그레이션 XML파일을 직접 등록하시거나 주소를 입력해 주세요..<br>
-		마이그레이션 후 기존 첨부파일 폴더는 /rb/files/ 폴더안에 업로드해주세요.<br>
-		(업로드한 모든 폴더와 파일들은 퍼미션을 일괄적으로 707로 변경해주세요.)
+		킴스큐 rb1 데이터를 킴스큐 Rb2 이전용 XML데이터로 추출할 수 있습니다.
 	</div>
 
 	<?php if($step == 'step1'):?>
@@ -57,18 +55,14 @@ $migset = array
 		<input type="hidden" name="export_type" value="<?php echo $export_type?>">
 
 		<div class="msg mb-4">
-			<?php echo $migset[$export_type]?> 데이터를 이전합니다.
-			<?php if($export_type!='member'):?>
-			<span class="text-danger">(반드시 회원데이터 이전 후 진행하세요)</span>
-			<?php else:?>
-			<span class="text-danger">(동일한 회원아이디가 존재할 경우 이전에서 제외됩니다)</span>
-			<?php endif?>
+			<?php echo $migset[$export_type]?> 데이터를 추출 합니다.
+
 		</div>
 
 		<table>
 
 			<?php if($export_type == 'board'):?>
-			<?php $BBSLIST = getDbArray($table['bbslist'],'site='.$s,'*','gid','asc',0,1)?>
+			<?php $BBSLIST = getDbArray($table['bbslist'],'uid','*','gid','asc',0,1)?>
 			<div class="form-group row">
 				<label class="col-2 col-form-label">추출대상 게시판</label>
 				<div class="col-5">
@@ -84,6 +78,7 @@ $migset = array
 			<?php endif?>
 
 		</table>
+
 
 		<div class="row">
 			<div class="col-5 offset-2">
