@@ -6,42 +6,51 @@ checkAdmin(0);
 function getMBRXml($site) {
 	global $g,$table;
 	static $string;
-	$TCD=getDbSelect($table['s_mbrdata'],($site?'site='.$site.' and ':'').'bbs='.$bbs.' order by gid desc','*');
+	$TCD=getDbSelect($table['s_mbrdata'],'site='.$site.' order by memberuid desc','*');
 	while($R=db_fetch_array($TCD)) {
+		$M = getUidData($table['s_mbrid'],$R['memberuid']);
 		$string .= "\t".'<item>'."\n";
-		$string .= "\t\t".'<display>'.$R['display'].'</display>'."\n";
-		$string .= "\t\t".'<hidden>'.$R['hidden'].'</hidden>'."\n";
-		$string .= "\t\t".'<mbruid>'.$R['mbruid'].'</mbruid>'."\n";
-		$string .= "\t\t".'<subject>'.preg_replace("/\r\n|\r|\n/", "", $R['subject']).'</subject>'."\n";
-		$string .= "\t\t".'<content>'.preg_replace("/\r\n|\r|\n/", "", $R['content']).'</content>'."\n";
-		$string .= "\t\t".'<tag>'.$R['tag'].'</tag>'."\n";
-		$string .= "\t\t".'<hit>'.$R['hit'].'</hit>'."\n";
-		$string .= "\t\t".'<comment>'.$R['comment'].'</comment>'."\n";
-		$string .= "\t\t".'<oneline>'.$R['oneline'].'</oneline>'."\n";
-		$string .= "\t\t".'<score1>'.$R['score1'].'</score1>'."\n";
-		$string .= "\t\t".'<score2>'.$R['score2'].'</score2>'."\n";
-		$string .= "\t\t".'<singo>'.$R['singo'].'</singo>'."\n";
+		$string .= "\t\t".'<id>'.$M['id'].'</id>'."\n";
+		$string .= "\t\t".'<pw>'.$M['id'].'</pw>'."\n";
+		$string .= "\t\t".'<auth>'.$R['auth'].'</auth>'."\n";
+
+		$string .= "\t\t".'<sosok>'.$R['sosok'].'</sosok>'."\n";
+		$string .= "\t\t".'<level>'.$R['level'].'</level>'."\n";
+		$string .= "\t\t".'<grade>'.$R['grade'].'</grade>'."\n";
+
+		$string .= "\t\t".'<admin>'.$R['admin'].'</admin>'."\n";
+		$string .= "\t\t".'<adm_view>'.$R['adm_view'].'</adm_view>'."\n";
+		$string .= "\t\t".'<email>'.$R['email'].'</email>'."\n";
+		$string .= "\t\t".'<name>'.$R['name'].'</name>'."\n";
+		$string .= "\t\t".'<nic>'.$R['nic'].'</nic>'."\n";
+		$string .= "\t\t".'<photo>'.$R['photo'].'</photo>'."\n";
+		$string .= "\t\t".'<home>'.$R['home'].'</home>'."\n";
+		$string .= "\t\t".'<sex>'.$R['sex'].'</sex>'."\n";
+		$string .= "\t\t".'<birth1>'.$R['birth1'].'</birth1>'."\n";
+		$string .= "\t\t".'<birth2>'.$R['birth2'].'</birth2>'."\n";
+		$string .= "\t\t".'<birthtype>'.$R['birthtype'].'</birthtype>'."\n";
+		$string .= "\t\t".'<tel1>'.$R['tel1'].'</tel1>'."\n";
+		$string .= "\t\t".'<tel2>'.$R['tel2'].'</tel2>'."\n";
+		$string .= "\t\t".'<zip>'.$R['zip'].'</zip>'."\n";
+		$string .= "\t\t".'<addr0>'.$R['addr0'].'</addr0>'."\n";
+		$string .= "\t\t".'<addr1>'.$R['addr1'].'</addr1>'."\n";
+		$string .= "\t\t".'<addr2>'.$R['addr2'].'</addr2>'."\n";
+		$string .= "\t\t".'<job>'.$R['job'].'</job>'."\n";
+		$string .= "\t\t".'<marr1>'.$R['marr1'].'</marr1>'."\n";
+		$string .= "\t\t".'<marr2>'.$R['marr2'].'</marr2>'."\n";
+		$string .= "\t\t".'<sms>'.$R['sms'].'</sms>'."\n";
+		$string .= "\t\t".'<mailing>'.$R['mailing'].'</mailing>'."\n";
+		$string .= "\t\t".'<smail>'.$R['smail'].'</smail>'."\n";
+		$string .= "\t\t".'<point>'.$R['point'].'</point>'."\n";
+		$string .= "\t\t".'<usepoint>'.$R['usepoint'].'</usepoint>'."\n";
+		$string .= "\t\t".'<money>'.$R['money'].'</money>'."\n";
+		$string .= "\t\t".'<cash>'.$R['cash'].'</cash>'."\n";
+		$string .= "\t\t".'<num_login>'.$R['num_login'].'</num_login>'."\n";
+		$string .= "\t\t".'<last_log>'.$R['last_log'].'</last_log>'."\n";
+		$string .= "\t\t".'<last_pw>'.$R['last_pw'].'</last_pw>'."\n";
 		$string .= "\t\t".'<d_regis>'.$R['d_regis'].'</d_regis>'."\n";
-		$string .= "\t\t".'<d_modify>'.$R['d_modify'].'</d_modify>'."\n";
-		$string .= "\t\t".'<ip>'.$R['ip'].'</ip>'."\n";
-		$string .= "\t\t".'<agent>'.$R['agent'].'</agent>'."\n";
-		$string .= "\t\t".'<adddata>'.$R['adddata'].'</adddata>'."\n";
-
-		if ($R['upload']) {
-
-			$string .= "\t\t".'<upload>';
-			$upfiles = getArrayString($R['upload']);
-			foreach ($upfiles['data'] as $_val) {
-				$U = getUidData($table['s_upload'],$_val);
-				if ($U['uid']) {
-					$string .= $U['name'].','.$U['tmpname'].','.$U['size'].','.$U['width'].','.$U['height'].','.$U['down'].','.$U['d_regis'].','.$U['folder'].'|';
-				}
-			}
-
-			$string .= '</upload>'."\n";
-		}
-
-
+		$string .= "\t\t".'<sns>'.$R['sns'].'</sns>'."\n";
+		$string .= "\t\t".'<addfield>'.$R['addfield'].'</addfield>'."\n";
 		$string .= "\t".'</item>'."\n";
 	}
 	return $string;
@@ -152,11 +161,6 @@ function getBBSXml($site,$bbs) {
 // 회원
 if ($export_type == 'member') {
 
-	$bbsexp		= explode(',',$bbs);
-	$bbsuid		= $bbsexp[0];
-	$bbsid		= $bbsexp[1];
-	$bbsname	= $bbsexp[2];
-
 	$filename = 'member.xml';
 	$filepath = $g['path_var'].'xml/'.$filename;
 
@@ -164,7 +168,7 @@ if ($export_type == 'member') {
 	fwrite($fp,"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	fwrite($fp,"<DATA>\n");
 	fwrite($fp,"\t<title>KIMSQ_RB_MEMBER</title>\n");
-	fwrite($fp,"\t<!-- 회원 -->\n");
+	fwrite($fp,"\t<!-- 회원정보 -->\n");
 	fwrite($fp,getMBRXml($s));
 	fwrite($fp,"</DATA>\n");
 	fclose($fp);

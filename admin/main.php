@@ -6,14 +6,16 @@ $migset = array
 	'member'=>'회원정보',
 	'board'=>'게시물/댓글',
 	'point'=>'포인트',
+	'cash'=>'적립금',
+	'money'=>'예치금',
 	'msg'=>'쪽지'
 );
 ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
 <div id="migbox" class="p-4">
-	<div class="notice">
-		킴스큐 rb1 데이터를 킴스큐 Rb2 이전용 XML데이터로 추출할 수 있습니다.
+	<div class="text-muted mb-2">
+		킴스큐 Rb2 이전용 XML데이터를 추출
 	</div>
 
 	<?php if($step == 'step1'):?>
@@ -30,16 +32,38 @@ $migset = array
 
 		<div class="custom-control custom-radio mb-2">
 		  <input type="radio" id="mig_member" name="export_type" value="member" class="custom-control-input" checked>
-		  <label class="custom-control-label" for="mig_member">회원정보 데이터</label>
+		  <label class="custom-control-label" for="mig_member">회원 정보</label>
 		</div>
+
+		<div class="custom-control custom-radio mb-2">
+			<input type="radio" id="mig_point" name="export_type" value="point" class="custom-control-input">
+			<label class="custom-control-label" for="mig_point">회원 포인트</label>
+		</div>
+
+		<div class="custom-control custom-radio mb-2">
+			<input type="radio" id="mig_cash" name="export_type" value="cash" class="custom-control-input">
+			<label class="custom-control-label" for="mig_cash">회원 적립금</label>
+		</div>
+
+		<div class="custom-control custom-radio mb-2">
+			<input type="radio" id="mig_money" name="export_type" value="money" class="custom-control-input">
+			<label class="custom-control-label" for="mig_money">회원 예치금</label>
+		</div>
+
+		<div class="custom-control custom-radio mb-2">
+			<input type="radio" id="mig_msg" name="export_type" value="msg" class="custom-control-input">
+			<label class="custom-control-label" for="mig_msg">회원 쪽지</label>
+		</div>
+
+		<hr>
 
 		<div class="custom-control custom-radio mb-2">
 			<input type="radio" id="mig_board" name="export_type" value="board" class="custom-control-input">
 			<label class="custom-control-label" for="mig_board">게시물/댓글/첨부파일</label>
 		</div>
 
-		<div class="submitbox">
-			<input type="submit" value=" 다음으로 " class="btn btn-light" />
+		<div class="mt-4">
+			<input type="submit" value=" 다음 " class="btn btn-primary" />
 		</div>
 
 	</form>
@@ -54,9 +78,8 @@ $migset = array
 		<input type="hidden" name="a" value="export">
 		<input type="hidden" name="export_type" value="<?php echo $export_type?>">
 
-		<div class="msg mb-4">
+		<div class="lead mb-4 text-primary">
 			<?php echo $migset[$export_type]?> 데이터를 추출 합니다.
-
 		</div>
 
 		<table>
@@ -85,7 +108,7 @@ $migset = array
 				<button type="submit" class="btn btn-primary">
 					추출하기
 				</button>
-				<button type="button" class="btn btn-link"  onclick="history.back();">
+				<button type="button" class="btn btn-light"  onclick="history.back();">
 					취소
 				</button>
 			</div>
